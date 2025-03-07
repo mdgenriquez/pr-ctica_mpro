@@ -31,3 +31,24 @@ minmax_scaler = joblib.load('archivos/minmax_scaler.pickle')
 selector_lgbm = joblib.load('archivos/selector_LGBM.pickle')
 hgb_model = joblib.load('archivos/hgb_best_model.pickle')
 
+# RDKit selected descriptors function
+def get_selected_RDKitdescriptors(smile, selected_descriptors, missingVal=None):
+    ''' Calculates only the selected descriptors for a molecule '''
+    res = {}
+    mol = Chem.MolFromSmiles(smile)
+    if mol is None:
+        return {desc: missingVal for desc in selected_descriptors}
+
+    for nm, fn in Descriptors._descList:
+        if nm in selected_descriptors:
+            try:
+                res[nm] = fn(mol)
+            except:
+                import traceback
+                traceback.print_exc()
+                res[nm] = missingVal
+    return res
+
+df = pd.DataFrame({'smiles': [compound_smiles]})
+#st.dataframe(df)
+
