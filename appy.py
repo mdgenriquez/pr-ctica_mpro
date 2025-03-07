@@ -60,6 +60,29 @@ st.dataframe(RDKit_df)
 
 
 # Calculate PaDEL descriptors
+#sale error con PaDEL_df = PaDEL_df_.loc[:,PaDEL_select_descriptors]
 PaDEL_descriptors = from_smiles(df['smiles'].tolist())
 PaDEL_df_ = pd.DataFrame(PaDEL_descriptors)
 PaDEL_df = PaDEL_df_.loc[:,PaDEL_select_descriptors]
+st.write("Descriptores PaDEL")
+st.dataframe(PaDEL_df)
+
+# Concatenate RDKit and PaDEL dataframes
+RDKit_PaDEL_df = pd.concat([RDKit_df, PaDEL_df], axis=1)
+RDKit_PaDEL_df_columns = RDKit_PaDEL_df.columns
+
+# Scale data
+RDKit_PaDEL_scaled_ = robust_scaler.transform(RDKit_PaDEL_df)
+RDKit_PaDEL_scaled = minmax_scaler.transform(RDKit_PaDEL_scaled_)
+RDKit_PaDEL_scaled_df = pd.DataFrame(RDKit_PaDEL_scaled)
+RDKit_PaDEL_scaled_df.columns = RDKit_PaDEL_df_columns
+
+# Selected features
+selected_features_mask = selector_lgbm.support_
+Selected_features = RDKit_PaDEL_df_columns[selected_features_mask]
+RDKit_PaDEL = RDKit_PaDEL_scaled_df[Selected_features]
+
+# Make predictions
+predictions = lgbm_model.predict(RDKit_PaDEL)
+st.write("Predicción de Docking score")
+st.dataframe(predictions)
