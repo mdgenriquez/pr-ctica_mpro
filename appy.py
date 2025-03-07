@@ -20,3 +20,14 @@ mm = Chem.MolFromSmiles(compound_smiles)
 
 Draw.MolToFile(mm,'mol.png')
 st.image('mol.png')
+
+#######
+RDKit_select_descriptors = joblib.load('./archivos/RDKit_select_descriptors.pickle')
+PaDEL_select_descriptors = joblib.load('./archivos/PaDEL_select_descriptors.pickle')
+robust_scaler = joblib.load('./archivos/robust_scaler.pickle')
+minmax_scaler = joblib.load('./archivos/minmax_scaler.pickle')
+#selector_lgbm = joblib.load('./archivos/selector_LGBM.pickle')
+#lgbm_model = joblib.load('./archivos/krr_best_model.pickle')
+selector_lgbm = joblib.load('./archivos/selector_LGBM.joblib')
+lgbm_model = joblib.load('./archivos/hgb_best_model.joblib')
+
