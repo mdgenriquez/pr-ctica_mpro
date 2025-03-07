@@ -17,3 +17,6 @@ st.title("Predictor de docking score de ligando-receptor Mpro")
 
 compound_smiles=st.text_input('Ingresa tu código SMILES','CC1CCC2C13CCC(=C)C(C3)C2(C)C ')
 mm = Chem.MolFromSmiles(compound_smiles)
+
+Draw.MolToFile(mm,'mol.png')
+st.image('mol.png')
