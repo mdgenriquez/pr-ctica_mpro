@@ -1,2 +1,2 @@
-# pr-ctica_mpro
+# práctica_mpro
 práctica_mpro
