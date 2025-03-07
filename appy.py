@@ -61,3 +61,4 @@ st.dataframe(RDKit_df)
 
 # Calculate PaDEL descriptors
 PaDEL_descriptors = from_smiles(df['smiles'].tolist())
+PaDEL_df_ = pd.DataFrame(PaDEL_descriptors)
